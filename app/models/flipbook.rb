@@ -1,0 +1,2 @@
+class Flipbook < ApplicationRecord
+end
