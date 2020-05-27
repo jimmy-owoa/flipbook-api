@@ -1,6 +1,6 @@
-class CreateFlipbooks < ActiveRecord::Migration[6.0]
+class CreateFlippingBooks < ActiveRecord::Migration[6.0]
   def change
-    create_table :flipbooks do |t|
+    create_table :flipping_books do |t|
       t.string :name
       t.string :description
       t.integer :pages

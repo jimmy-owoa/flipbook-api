@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class FlipbookTest < ActiveSupport::TestCase
+class FlippingBookTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
