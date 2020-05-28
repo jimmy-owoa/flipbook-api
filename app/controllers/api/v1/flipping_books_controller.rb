@@ -4,9 +4,18 @@ module Api::V1
 
     # GET /flipping_books
     def index
-      @flipping_books = FlippingBook.all
-
-      render json: @flipping_books
+      @flipping_books = FlippingBook.all.order(id: :desc)
+      data = []
+      @flipping_books.each do |flipping_book|
+        data << {
+          id: flipping_book.id,
+          name: flipping_book.name,
+          description: flipping_book.description,
+          pages: flipping_book.try(:pages),
+          image: url_for(flipping_book.images.blobs.order(:filename).first)
+        }
+      end
+      render json: data
     end
 
     # GET /flipping_books/1
@@ -20,10 +29,11 @@ module Api::V1
     # POST /flipping_books
     def create
       @flipping_book = FlippingBook.new(flipping_book_params)
+      params[:flipping_book][:images].values.each do |image|
+        @flipping_book.images.attach(image)
+      end
+      @flipping_book.pages = @flipping_book.images.count
       if @flipping_book.save
-        params[:flipping_book][:images].values.each do |image|
-          @flipping_book.images.attach(image)
-        end
         render json: @flipping_book, status: :created
       else
         render json: @flipping_book.errors, status: :unprocessable_entity
