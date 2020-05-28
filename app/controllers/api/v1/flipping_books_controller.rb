@@ -21,6 +21,9 @@ module Api::V1
     def create
       @flipping_book = FlippingBook.new(flipping_book_params)
       if @flipping_book.save
+        params[:flipping_book][:images].values.each do |image|
+          @flipping_book.images.attach(image)
+        end
         render json: @flipping_book, status: :created
       else
         render json: @flipping_book.errors, status: :unprocessable_entity
@@ -49,7 +52,7 @@ module Api::V1
 
       # Only allow a trusted parameter "white list" through.
       def flipping_book_params
-        params.require(:flipping_book).permit(:name, :description, :pages, :file, :images)
+        params.require(:flipping_book).permit(:name, :description, :pages, :file, images: [])
       end
   end
 end
