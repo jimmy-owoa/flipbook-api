@@ -12,7 +12,7 @@ module Api::V1
     # GET /flipping_books/1
     def show
       images = []
-      @flipping_book.images.each { |image| images <<  url_for(image)}
+      @flipping_book.images.blobs.order(:filename).each { |image| images <<  url_for(image)}
       data = { name: @flipping_book.name, description: @flipping_book.description, file: url_for(@flipping_book.file), images: images}
       render json: data
     end
