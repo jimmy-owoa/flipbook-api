@@ -12,6 +12,7 @@ module Api::V1
           name: flipping_book.name,
           description: flipping_book.description,
           pages: flipping_book.try(:pages),
+          file_url: url_for(flipping_book.file),
           image: url_for(flipping_book.images.blobs.order(:filename).first)
         }
       end
